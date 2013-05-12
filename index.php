@@ -88,7 +88,7 @@ if (isset($_GET['playlist'])) {
 
                     <form class="form-search">
                         <div class="input-append">
-                            <input id="songbox" type="text" class="span5 search-query" placeholder="What do you want to listen to?">
+                            <input id="songbox" type="text" class="span5 search-query" placeholder="Search away; if we've got the song, it will play">
                             <button id="go" type="submit" class="btn btn-primary"><i class="icon-search icon-white"></i> for <i class="icon-music icon-white"></i></button>
                         </div>
                     </form>
@@ -121,7 +121,7 @@ if (isset($_GET['playlist'])) {
                 <div class="general">
                     <h3>About tunejet.net</h3>
                     <p>We think you should be free to listen to your favorite songs without giving a second thought to excessive subscription fees, advertisements, or&mdash;in the absence of those&mdash;tasteless vendor-lock (iTunes). Our goal is to make your music accessible on virtually every modern platform (yep, even iOS), and ultimately to provide the go-to music streaming service that plays your favorite songs on demand.</p>
-                    <p>We created tunejet to simplify your relationship with music. Since most people don't use iTunes exclusively, and since they often go to the trouble of syncing non-iTunes music to their iPhones anyway, we thought we should replace this obnoxious process. Making a playlist (with non-iTunes music, God forbid) shouldn't be an ordeal. And with tunejet, it's really not. When you want to listen to music that you didn't purchase from iTunes, or when Pandora gets a bit boring, tunejet gives you a few choices: You can search for specific songs, first of all, to see if anyone else has uploaded them, and if they already exist, you can simply add them to your playlist. If you're a real hipster and nobody has linked tunejet to your favorite songs yet, you can throw your MP3s into a public Dropbox folder (or the likes) and tell tunejet where they are so you can easily play them thereafter simply by searching. And then there's Google, who will gladly show you where to find any MP3 if you ask nicely.</p>
+                    <p>We created tunejet to simplify your relationship with music. Since most people don't use iTunes exclusively, and since they often go to the trouble of syncing non-iTunes music to their iPhones anyway, we thought we should replace this obnoxious process. Making a playlist with non-iTunes music (God forbid) shouldn't be an ordeal. And with tunejet, it's really not. When you want to listen to music that you didn't purchase from iTunes, or when Pandora gets a bit boring, tunejet gives you a few choices: You can search for specific songs, first of all, to see if anyone else has uploaded them, and if they already exist, you can simply add them to your playlist. If you're a real hipster and nobody has linked tunejet to your favorite songs yet, you can throw your MP3s into a public Dropbox folder or your website and tell tunejet where they are so you can easily play them thereafter simply by searching. And then there's Google, who will gladly show you where to find any MP3 if you ask nicely.</p>
                     <p>All of our songs are totally decentralized: Our database is full of nothing but <em>links</em> to MP3 files. While we are still required by the DMCA to remove links to infringing material (like all search engines), we don't scour our database to find links to infringing media unless asked; we leave the moral, civil, and legal decisions to you. When it comes to music, we consider tunejet to be a tool for freedom.</p>
                 </div>
 
@@ -209,15 +209,14 @@ if (isset($_GET['playlist'])) {
     
     <!-- JS -->
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="scripts/playlist.js"></script>
     <script type="text/javascript" src="scripts/player.js"></script>
     <script type="text/javascript" src="scripts/main.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-    
     <script type="text/javascript">
-        (function(ID) { INIT_ID = ID ? ID : null; })(<?php echo($song); ?>);
-        (function(PL) { INIT_PL = PL ? PL : null; })('<?php echo($playlist); ?>');
-        (function(n) { COUNT = n ? n : null; })(<?php echo($n); ?>);
+        (function(ID) { INIT_ID = ID || null; })(<?php echo($song); ?>);
+        (function(PL) { INIT_PL = PL || null; })('<?php echo($playlist); ?>');
+        (function(n) { COUNT = n || null; })();
     </script>
     
 </html>

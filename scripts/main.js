@@ -200,27 +200,23 @@ $('document').ready(function() {
         });
     });
     
-    //---------------- Manage pseudo-pages ----------------//
+    $('#playermenulink').click(function(e) {
+        e.preventDefault();
+        changePageTo('player');
+        $('#playermenulink').className = "";
+    });
     
-        $('#playermenulink').click(function(e) {
-            e.preventDefault();
-            changePageTo('player');
-            $('#playermenulink').className = "";
-        });
-        
-        $('#aboutmenulink').click(function(e) {
-            e.preventDefault();
-            changePageTo('about');
-            $('#playermenulink').className = "";
-        });
-        
-        $('#recentmenulink').click(function(e) {
-            e.preventDefault();
-            changePageTo('recent');
-            $('#playermenulink').className = "";
-        });
+    $('#aboutmenulink').click(function(e) {
+        e.preventDefault();
+        changePageTo('about');
+        $('#playermenulink').className = "";
+    });
     
-    //-----------------------------------------------------//
+    $('#recentmenulink').click(function(e) {
+        e.preventDefault();
+        changePageTo('recent');
+        $('#playermenulink').className = "";
+    });
     
     $(player.song).bind('error', function() {
         if (playlist.is_on)
