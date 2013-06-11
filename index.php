@@ -216,7 +216,7 @@ if (isset($_GET['playlist'])) {
     <script type="text/javascript">
         (function(ID) { INIT_ID = ID || null; })(<?php echo($song); ?>);
         (function(PL) { INIT_PL = PL || null; })('<?php echo($playlist); ?>');
-        (function(n) { COUNT = n || null; })();
+        (function(n) { COUNT = n || null; })(<?php echo($n); ?>);
     </script>
     
 </html>
