@@ -72,8 +72,8 @@ function playByID(s_ID) {
 
 function playNext() {
     if (playlist.s_index == playlist.songs.length - 1) {
-        playByIndex(0); // Restart
-    } else { // Play next
+        playByIndex(0);
+    } else {
         playByIndex(playlist.s_index += 1);
     }
 }
@@ -100,7 +100,7 @@ function toggleResults() {
         });
     }
     
-    results_visible = (results_visible) ? false : true;
+    results_visible = !results_visible;
 }
 
 $('document').ready(function() {
@@ -125,8 +125,7 @@ $('document').ready(function() {
         } else {
             if (initializing) {
                 $('#playlistdiv').hide().html('<div class="general"><ul id="playlistbox" class="nav"></ul><center><p><button id="publish" class="btn btn-mini btn-success">Publish</button> <button id="clearbtn" class="btn btn-mini btn-danger">Clear</button></p></center></div>');
-                
-                // Publish playlist
+
                 $('#publish').click(function() {
                     var pln = prompt("Give your playlist a name");
                     var obj = JSON.stringify(playlist.songs);
@@ -140,8 +139,7 @@ $('document').ready(function() {
                         });
                     }
                 });
-                
-                // Clear playlist
+
                 $('#clearbtn').click(function() {
                     if (confirm('Are you sure?')) {
                         playlist.clear();
@@ -225,7 +223,6 @@ $('document').ready(function() {
             playRandom();
     });
     
-    // Play next song in playlist
     $(player.song).bind('ended', function() {
         if (playlist.is_on)
             playNext();
