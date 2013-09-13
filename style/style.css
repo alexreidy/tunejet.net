@@ -3,10 +3,3 @@ div.general { background-color:#F3F3F3; padding:10px; padding-left:20px; padding
 div.song { background-color:#E9E9E9; padding: 3px; margin-bottom:5px; border-radius:5px; }
 #nowplaying { color:#2E465E; text-align:center; margin:15px; font-family: verdana; font-size:14px; }
 #about {display:none;} #recent {display:none;}
-#footer {
-    position:absolute;
-    text-align:center;
-    bottom:0;
-    width:100%;
-    height:40px;
-}

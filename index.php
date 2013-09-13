@@ -178,9 +178,7 @@ if (isset($_GET['playlist'])) {
             </div>
         </div>
 
-        <div id="footer">
-            <p class="muted">Created by <a class="muted" href="http://alexreidy.me">Alex Reidy</a></p>
-        </div>
+        <center><p class="muted">Created by <a class="muted" href="http://alexreidy.me">Alex Reidy</a></p></center>
             
         <!-- Song adder dialog -->
         <div id="addsongs" class="modal hide fade" tabindex="-1" aria-labelledby="addsongtitle" role="dialog" aria-hidden="true">
