@@ -148,7 +148,7 @@ if (isset($_GET['playlist'])) {
                 <div class="general">
                     <h3>Contact</h3>
                     <p>If you have questions, ideas, comments, or concerns, let us know.</p>
-                    <p><a href="mailto:info@tunejet.net">info@tunejet.net</a></p>
+                    <p><a href="mailto:alex@ereidy.com">alex@ereidy.com</a></p>
                     <p><a href="https://twitter.com/tunejetdotnet">twitter</a></p>
                 </div>
             </div>
