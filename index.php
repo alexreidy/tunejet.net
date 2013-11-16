@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-<!-- Copyright (C) 2013 Alex Reidy -->
 <?php
 
 session_start();
@@ -8,10 +6,9 @@ require 'scripts/database.php';
 if (!isset($_SESSION['adds']))
     $_SESSION['adds'] = 0;
 
-$result = mysql_query("SELECT MAX(id) FROM songs;");
-$row = mysql_fetch_array($result);
+$result = $db->query("SELECT MAX(id) FROM songs;");
+$row = $result->fetch_array();
 $n = $row[0];
-
 // Play GET-requested song:
 if (isset($_GET['song'])) {
     $song = $_GET['song'];
@@ -26,6 +23,9 @@ if (isset($_GET['playlist'])) {
 }
 
 ?>
+
+<!DOCTYPE html>
+<!-- Copyright (C) 2013 Alex Reidy -->
 
 <html>
     <head>
@@ -160,14 +160,13 @@ if (isset($_GET['playlist'])) {
                 <div class="general">
                     <h3>Songs recently added to the tunejet database</h3>
                     <?php
-                    
                     // $size = mysql_fetch_array(mysql_query("SELECT MAX(id) FROM songs;"))[0];
-                    $result = mysql_query("SELECT MAX(id) FROM songs;");
-                    $row = mysql_fetch_array($result);
+                    $result = $db->query("SELECT MAX(id) FROM songs;");
+                    $row = $result->fetch_array();
                     $size = $row[0];
                     
                     for ($i = $size; $i > $size - 25; $i--) {
-                        $row = mysql_fetch_array(mysql_query("SELECT * FROM songs WHERE id = '{$i}';"));
+                        $row = $db->query("SELECT * FROM songs WHERE id = {$i};")->fetch_array();
                         if ($row) { // <a href="/?song='. $row['id'] .'"><strong>' . $row['title'] . '</strong> by ' . $row['artist'] . '</a>
                             echo('<div class="song"><button class="btn btn-link" onclick="playByID('. $row['id'] .')"><strong>'. $row['title'] .'</strong> by '. $row['artist'] .'</button></div>');
                         }

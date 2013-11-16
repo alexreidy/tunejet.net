@@ -3,8 +3,8 @@
 session_start();
 require 'database.php';
 
-function clean($string) {
-    return mysql_real_escape_string(strip_tags($string, "<strong>"));
+function clean($db, $string) {
+    return $db->real_escape_string(strip_tags($string, "<strong>"));
 }
 
 function link_uses_http($link) {
@@ -19,13 +19,13 @@ function link_uses_http($link) {
     return true;
 }
 
-function get_ID($title) {
+function get_ID($db, $title) {
     // Return ID of song of given title with highest rating
     if ($title != "") {
-        $row = mysql_fetch_array(mysql_query("
+        $row = $db->query("
             SELECT * FROM songs WHERE LOWER(title) = LOWER('{$title}')
             AND rating = (SELECT MAX(rating) FROM songs WHERE LOWER(title) = LOWER('{$title}'));
-        "));
+        ")->fetch_array();
     }
     
     return $row['id'];
@@ -40,15 +40,15 @@ switch ($_POST['action']) {
             break;
         }
 
-        $title = clean($_POST['title']);
-        $artist = clean($_POST['artist']);
-        $link = clean($_POST['link']);
+        $title = clean($db, $_POST['title']);
+        $artist = clean($db, $_POST['artist']);
+        $link = clean($db, $_POST['link']);
         
         if (link_uses_http($link) && $title != "" && $artist != "" && $link != "") {
-            $result = mysql_query("
+            $result = $db->query("
                 INSERT INTO songs (title, artist, link, rating)
                 VALUES ('{$title}', '{$artist}', '{$link}', 0);
-            ", $conn);
+            ");
             
             if ($result) {
                 $_SESSION['adds']++;
@@ -62,17 +62,17 @@ switch ($_POST['action']) {
         $title = "";
         
         if (isset($_POST['title']))
-            $title = clean($_POST['title']);
+            $title = clean($db, $_POST['title']);
             
         echo(get_ID($title));
         break;
         
     case 'getLink': // ...by ID to play song
         if (isset($_POST['ID'])) {
-            $ID = clean($_POST['ID']);
-            $row = mysql_fetch_array(mysql_query("
+            $ID = clean($db, $_POST['ID']);
+            $row = $db->query("
                 SELECT * FROM songs WHERE id = {$ID};
-            "));
+            ")->fetch_array();
         }
 
         echo($row['link']);
@@ -84,11 +84,11 @@ switch ($_POST['action']) {
         if ($_SESSION['adds'] > 5)
             break;
         if (isset($_POST['OBJ']) && isset($_POST['PLN'])) {
-            $pl_obj = clean($_POST['OBJ']);
-            $pl_name = clean($_POST['PLN']);
+            $pl_obj = clean($db, $_POST['OBJ']);
+            $pl_name = clean($db, $_POST['PLN']);
             
             if ($pl_name != "" && $pl_obj != "") {
-                $result = mysql_query("
+                $result = $db->query("
                     INSERT INTO playlists (name, playlist, rating)
                     VALUES ('{$pl_name}', '{$pl_obj}', 0);
                 ");
@@ -104,13 +104,14 @@ switch ($_POST['action']) {
         
     case 'getPlaylistObject':
         if (isset($_POST['PL']))
-            $PL = clean($_POST['PL']);
-        $row = mysql_fetch_array(mysql_query("
+            $PL = clean($db, $_POST['PL']);
+
+        $row = $db->query("
             SELECT * FROM playlists WHERE name = '{$PL}';
-        "));
+        ")->fetch_array();
         
         // rating++ on each request
-        mysql_query("
+        $db->query("
             UPDATE playlists SET rating = rating + 1
             WHERE name = '{$PL}';
         ");
@@ -121,8 +122,8 @@ switch ($_POST['action']) {
         
     case 'updateRating':
         if (isset($_POST['ID'])) {
-            $ID = clean($_POST['ID']);
-            mysql_query("
+            $ID = clean($db, $_POST['ID']);
+            $db->query("
                 UPDATE songs SET rating = rating + 1
                 WHERE id = {$ID};
             ");
@@ -132,24 +133,24 @@ switch ($_POST['action']) {
         
     case 'getSongData':
         if (isset($_POST['ID'])) {
-            $ID = clean($_POST['ID']);
-            $row = mysql_fetch_array(mysql_query("
+            $ID = clean($db, $_POST['ID']);
+            $row = $db->query("
                 SELECT * FROM songs WHERE id = {$ID};
-            "));
+            ")->fetch_array();
         }
         
         echo("<strong>" . $row['title'] . "</strong> by " . $row['artist']);
         break;
         
     case 'getResults':
-        $ID = clean($_POST['ID']);
-        $row = mysql_fetch_array(mysql_query(" SELECT * FROM songs WHERE id={$ID}; "));
+        $ID = clean($db, $_POST['ID']);
+        $row = $db->query(" SELECT * FROM songs WHERE id={$ID}; ")->fetch_array();
         $title = $row['title'];
         
-        $result = mysql_query(" SELECT * FROM songs WHERE LOWER(title)=LOWER('{$title}') ORDER BY rating DESC; ");
+        $result = $db->query(" SELECT * FROM songs WHERE LOWER(title)=LOWER('{$title}') ORDER BY rating DESC; ");
         $count = 0;
         if ($result) {
-            while($row = mysql_fetch_array($result)) {
+            while($row = $result->fetch_array()) {
                 if ($count > 4) break;
                 if ($row['id'] != $ID) {
                     echo('<div class="song"><button class="btn btn-link btn-mini" onclick="playByID('. $row['id'] .')">'. $row['title'] .' by '. $row['artist'] .'</button></div>');
