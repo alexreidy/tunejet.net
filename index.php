@@ -7,7 +7,7 @@ if (!isset($_SESSION['adds']))
     $_SESSION['adds'] = 0;
 
 $result = $db->query("SELECT MAX(id) FROM songs;");
-$row = $result->fetch_array();
+if ($result) $row = $result->fetch_array();
 $n = $row[0];
 // Play GET-requested song:
 if (isset($_GET['song'])) {
@@ -162,7 +162,7 @@ if (isset($_GET['playlist'])) {
                     <?php
                     // $size = mysql_fetch_array(mysql_query("SELECT MAX(id) FROM songs;"))[0];
                     $result = $db->query("SELECT MAX(id) FROM songs;");
-                    $row = $result->fetch_array();
+                    if ($result) $row = $result->fetch_array();
                     $size = $row[0];
                     
                     for ($i = $size; $i > $size - 25; $i--) {
