@@ -26,7 +26,7 @@ function get_ID($db, $title) {
             SELECT * FROM songs WHERE LOWER(title) = LOWER('{$title}')
             AND rating = (SELECT MAX(rating) FROM songs WHERE LOWER(title) = LOWER('{$title}'));
         ");
-        if ($result) $row = ->fetch_array();
+        if ($result) $row = $result->fetch_array();
         else return false;
     }
     
