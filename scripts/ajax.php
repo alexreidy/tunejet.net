@@ -22,10 +22,12 @@ function link_uses_http($link) {
 function get_ID($db, $title) {
     // Return ID of song of given title with highest rating
     if ($title != "") {
-        $row = $db->query("
+        $result = $db->query("
             SELECT * FROM songs WHERE LOWER(title) = LOWER('{$title}')
             AND rating = (SELECT MAX(rating) FROM songs WHERE LOWER(title) = LOWER('{$title}'));
-        ")->fetch_array();
+        ");
+        if ($result) $row = ->fetch_array();
+        else return false;
     }
     
     return $row['id'];
@@ -64,7 +66,7 @@ switch ($_POST['action']) {
         if (isset($_POST['title']))
             $title = clean($db, $_POST['title']);
             
-        echo(get_ID($title));
+        echo(get_ID($db, $title));
         break;
         
     case 'getLink': // ...by ID to play song
